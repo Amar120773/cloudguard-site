@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   CloudGuard marketing site — design tokens
+
+   Shares the product's brand chrome (cyan/azure) and its *validated* data
+   colours, so the screenshots and diagrams on this page match the real app:
+   series blue #3987e5 vs orange #d95926 clears ΔE 26.8 under protanopia on a
+   dark surface. Status colours keep their meaning from the dashboard.
+   ========================================================================== */
+@theme {
+  --color-ink-950: #07080b;
+  --color-ink-900: #0b0c10;
+  --color-ink-850: #0f1116;
+  --color-ink-800: #14161d;
+  --color-ink-700: #1d2029;
+  --color-ink-600: #2a2e3a;
+
+  --color-brand-400: #4facfe;
+  --color-brand-300: #00f2fe;
+  --color-brand-200: #9af6ff;
+
+  /* Data-visualisation palette, carried over from the dashboard. */
+  --color-series-1: #3987e5;
+  --color-series-2: #d95926;
+  --color-good: #0ca30c;
+  --color-warn: #fab219;
+  --color-serious: #ec835a;
+  --color-critical: #d03b3b;
+
+  --font-sans: "Outfit", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", Consolas, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Sticky nav must not cover the heading of a jumped-to section. */
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    background-color: var(--color-ink-900);
+    color: #e8eaf0;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: rgba(0, 242, 254, 0.25);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-300);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+@layer utilities {
+  /* Grid background used behind the hero, masked so it fades out rather than
+     ending in a hard line. */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, #ffffff 25%, var(--color-brand-200) 75%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Hairline border that reads as a light source rather than a box. */
+  .ring-hairline {
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.07),
+      0 0 0 1px rgba(255, 255, 255, 0.06);
+  }
+
+  .glow-brand {
+    box-shadow: 0 0 60px -12px rgba(0, 242, 254, 0.45);
+  }
+
+  .animate-float {
+    animation: float 7s ease-in-out infinite;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 32s linear infinite;
+}
+
+/* Decorative motion is suppressed for users who ask for less of it; the
+   content never depends on an animation having run. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
