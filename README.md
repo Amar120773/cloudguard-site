@@ -72,36 +72,4 @@ else hardcodes them.
 - **Reduced motion** is respected throughout; the page renders in its final
   state when a visitor asks for less motion.
 
-## Deploying it
 
-### Vercel
-
-This folder is **not currently a git repository**, so Vercel's Git integration
-cannot see it. Two options:
-
-```bash
-# A. Deploy straight from this folder
-npx vercel            # preview
-npx vercel --prod     # production
-
-# B. Give it its own repo first, then connect it in the Vercel dashboard
-git init && git add -A && git commit -m "Initial commit"
-git remote add origin git@github.com:<you>/cloudguard-site.git
-git push -u origin main
-```
-
-Option B is better long term: previews per branch, and deploys that do not fire
-on unrelated product commits.
-
-`vercel.json` already sets the build command, output directory, immutable asset
-caching and security headers. No environment variables are needed.
-
-### Anywhere else
-
-`npm run build` and upload `dist/`. A `Dockerfile` and `nginx.conf` are included
-if you would rather run it as a container:
-
-```bash
-docker build -t cloudguard-site .
-docker run -p 5174:80 cloudguard-site
-```
